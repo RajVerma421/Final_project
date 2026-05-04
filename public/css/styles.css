@@ -1,0 +1,50 @@
+body {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  color: #0d6efd;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+footer {
+  margin-top: auto;
+}
+
+.btn {
+  border-radius: 0.375rem;
+}
+
+.text-warning {
+  color: #ffc107 !important;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+form.needs-validation .form-control:invalid,
+form.needs-validation .form-select:invalid {
+  border-color: #dc3545;
+}
+
+form.needs-validation .form-control:valid,
+form.needs-validation .form-select:valid {
+  border-color: #198754;
+}
