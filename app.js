@@ -8,7 +8,7 @@ const app = express();
 mongoose.connect('mongodb://localhost:27017/travel-journal');
 
 app.use(express.urlencoded({ extended: true }));
-app.use(session({ secret: 'secret' }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
