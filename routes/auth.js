@@ -12,10 +12,6 @@ passport.use(new (require('passport-local').Strategy)(
     return done(null, user);
   }
 ));
-
-passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((id, done) => User.findById(id).then(u => done(null, u)));
-
 // Register
 router.get('/register', (req, res) => res.render('register'));
 
