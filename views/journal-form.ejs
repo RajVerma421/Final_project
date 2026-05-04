@@ -1,110 +1,33 @@
 <%- include('./partials/header') %>
 
-<div class="row justify-content-center">
-  <div class="col-md-8">
-    <h2 class="mb-4"><%= method === 'PUT' ? 'Edit Journal' : 'New Travel Journal' %></h2>
+<h2><%= method === 'PUT' ? 'Edit Journal' : 'New Journal' %></h2>
 
-    <% if (errors && errors.length > 0) { %>
-      <div class="alert alert-danger">
-        <ul class="mb-0">
-          <% errors.forEach(err => { %>
-            <li><%= err %></li>
-          <% }) %>
-        </ul>
-      </div>
-    <% } %>
+<form action="<%= action %>" method="POST">
+  <% if (method === 'PUT') { %>
+    <input type="hidden" name="_method" value="PUT">
+  <% } %>
 
-    <form class="needs-validation" action="<%= action %>" method="POST" novalidate>
-      <% if (method === 'PUT') { %>
-        <input type="hidden" name="_method" value="PUT">
-      <% } %>
+  <input type="text" name="destination" placeholder="Destination"
+         value="<%= journal.destination || '' %>" <%= method==='PUT'?'readonly':'' %> required>
 
-      <div class="mb-3">
-        <label for="destination" class="form-label">Destination</label>
-        <input type="text" class="form-control" id="destination" name="destination"
-               value="<%= journal.destination || '' %>"
-               <%= method === 'PUT' ? 'readonly disabled' : 'required' %>>
-        <% if (method === 'PUT') { %>
-          <small class="text-muted">Destination cannot be changed after creation.</small>
-          <input type="hidden" name="destination" value="<%= journal.destination || '' %>">
-        <% } else { %>
-          <div class="invalid-feedback">Destination is required.</div>
-        <% } %>
-      </div>
+  <input type="date" name="arrivalDate"
+         value="<%= journal.arrivalDate || '' %>" required>
 
-      <div class="mb-3">
-        <label for="arrivalDate" class="form-label">Arrival Date</label>
-        <input type="date" class="form-control" id="arrivalDate" name="arrivalDate"
-               value="<%= journal.arrivalDate ? new Date(journal.arrivalDate).toISOString().split('T')[0] : '' %>"
-               required>
-        <div class="invalid-feedback">Arrival date is required.</div>
-      </div>
+  <input type="date" name="departureDate"
+         value="<%= journal.departureDate || '' %>" required>
 
-      <div class="mb-3">
-        <label for="departureDate" class="form-label">Departure Date</label>
-        <input type="date" class="form-control" id="departureDate" name="departureDate"
-               value="<%= journal.departureDate ? new Date(journal.departureDate).toISOString().split('T')[0] : '' %>"
-               required>
-        <div class="invalid-feedback">Departure date must be after arrival date.</div>
-      </div>
+  <textarea name="experience" placeholder="Experience" required>
+    <%= journal.experience || '' %>
+  </textarea>
 
-      <div class="mb-3">
-        <label for="experience" class="form-label">Experience</label>
-        <textarea class="form-control" id="experience" name="experience" rows="4" required
-                  minlength="10"><%= journal.experience || '' %></textarea>
-        <div class="invalid-feedback">Experience must be at least 10 characters.</div>
-      </div>
+  <input type="number" name="rating" min="1" max="5"
+         value="<%= journal.rating || '' %>" required>
 
-      <div class="mb-3">
-        <label for="rating" class="form-label">Rating (1-5)</label>
-        <select class="form-select" id="rating" name="rating" required>
-          <option value="">Select rating...</option>
-          <% for (let i = 1; i <= 5; i++) { %>
-            <option value="<%= i %>" <%= journal.rating == i ? 'selected' : '' %>><%= i %> <%= i === 1 ? 'star' : 'stars' %></option>
-          <% } %>
-        </select>
-        <div class="invalid-feedback">Please select a rating between 1 and 5.</div>
-      </div>
+  <button type="submit">
+    <%= method === 'PUT' ? 'Update' : 'Create' %>
+  </button>
+</form>
 
-      <div class="d-flex gap-2">
-        <button type="submit" class="btn btn-primary"><%= method === 'PUT' ? 'Update' : 'Create' %> Journal</button>
-        <a href="/journals" class="btn btn-secondary">Cancel</a>
-      </div>
-    </form>
-  </div>
-</div>
-
-<script>
-  (function () {
-    'use strict';
-    const forms = document.querySelectorAll('.needs-validation');
-    Array.from(forms).forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-        const arrivalDate = document.getElementById('arrivalDate').value;
-        const departureDate = document.getElementById('departureDate').value;
-        if (arrivalDate && departureDate && new Date(departureDate) <= new Date(arrivalDate)) {
-          event.preventDefault();
-          event.stopPropagation();
-          document.getElementById('departureDate').setCustomValidity('Departure date must be after arrival date');
-        } else {
-          document.getElementById('departureDate').setCustomValidity('');
-        }
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-
-      const departureDateInput = document.getElementById('departureDate');
-      const arrivalDateInput = document.getElementById('arrivalDate');
-      arrivalDateInput.addEventListener('change', function () {
-        if (arrivalDateInput.value) {
-          departureDateInput.min = new Date(new Date(arrivalDateInput.value).getTime() + 86400000).toISOString().split('T')[0];
-        }
-      });
-    });
-  })();
-</script>
+<a href="/journals">Back</a>
 
 <%- include('./partials/footer') %>
