@@ -35,13 +35,5 @@ const journalSchema = new mongoose.Schema({
   timestamps: true
 });
 
-journalSchema.pre('validate', function(next) {
-  if (this.arrivalDate && this.departureDate) {
-    if (this.departureDate <= this.arrivalDate) {
-      this.invalidate('departureDate', 'Departure date must be after arrival date');
-    }
-  }
-  next();
-});
 
 module.exports = mongoose.model('Journal', journalSchema);
