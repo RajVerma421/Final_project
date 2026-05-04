@@ -1,84 +1,22 @@
 <%- include('./partials/header') %>
 
-<div class="row justify-content-center">
-  <div class="col-md-6">
-    <h2 class="mb-4">Register</h2>
+<h2>Register</h2>
 
-    <% if (errors && errors.length > 0) { %>
-      <div class="alert alert-danger">
-        <ul class="mb-0">
-          <% errors.forEach(err => { %>
-            <li><%= err %></li>
-          <% }) %>
-        </ul>
-      </div>
-    <% } %>
+<% if (errors) { %>
+  <p><%= errors %></p>
+<% } %>
 
-    <form class="needs-validation" action="/register" method="POST" novalidate>
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username"
-               value="<%= formData.username || '' %>" required minlength="3">
-        <div class="invalid-feedback">Username must be at least 3 characters.</div>
-      </div>
+<form action="/register" method="POST">
+  <input type="text" name="username" placeholder="Username" required>
+  <input type="password" name="password" placeholder="Password" required>
+  <input type="text" name="nationality" placeholder="Nationality" required>
 
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password"
-               required minlength="6">
-        <div class="invalid-feedback">Password must be at least 6 characters.</div>
-      </div>
+  <input type="text" name="travelStyle" placeholder="Travel Style" required>
+  <input type="text" name="favoriteContinent" placeholder="Favorite Continent" required>
 
-      <div class="mb-3">
-        <label for="nationality" class="form-label">Nationality</label>
-        <input type="text" class="form-control" id="nationality" name="nationality"
-               value="<%= formData.nationality || '' %>" required>
-        <div class="invalid-feedback">Nationality is required.</div>
-      </div>
+  <button type="submit">Register</button>
+</form>
 
-      <div class="mb-3">
-        <label for="travelStyle" class="form-label">Travel Style</label>
-        <select class="form-select" id="travelStyle" name="travelStyle" required>
-          <option value="">Select travel style...</option>
-          <% ['Adventure', 'Relaxation', 'Cultural', 'Business', 'Backpacking', 'Luxury'].forEach(style => { %>
-            <option value="<%= style %>" <%= formData.travelStyle === style ? 'selected' : '' %>><%= style %></option>
-          <% }) %>
-        </select>
-        <div class="invalid-feedback">Please select a travel style.</div>
-      </div>
-
-      <div class="mb-3">
-        <label for="favoriteContinent" class="form-label">Favorite Continent</label>
-        <select class="form-select" id="favoriteContinent" name="favoriteContinent" required>
-          <option value="">Select continent...</option>
-          <% ['Asia', 'Europe', 'Africa', 'North America', 'South America', 'Australia', 'Antarctica'].forEach(continent => { %>
-            <option value="<%= continent %>" <%= formData.favoriteContinent === continent ? 'selected' : '' %>><%= continent %></option>
-          <% }) %>
-        </select>
-        <div class="invalid-feedback">Please select a favorite continent.</div>
-      </div>
-
-      <button type="submit" class="btn btn-primary w-100">Register</button>
-    </form>
-
-    <p class="mt-3">Already have an account? <a href="/login">Login here</a></p>
-  </div>
-</div>
-
-<script>
-  (function () {
-    'use strict';
-    const forms = document.querySelectorAll('.needs-validation');
-    Array.from(forms).forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  })();
-</script>
+<p><a href="/login">Login</a></p>
 
 <%- include('./partials/footer') %>
