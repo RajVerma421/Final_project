@@ -22,13 +22,6 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'travel-journal-secret-key',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { maxAge: 24 * 60 * 60 * 1000 }
-}));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
