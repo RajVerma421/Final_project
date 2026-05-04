@@ -13,28 +13,11 @@ router.get('/journals', isAuth, async (req, res) => {
   res.render('journals', { journals });
 });
 
-// New journal form
-router.get('/journal/new', isAuth, (req, res) => {
-  res.render('journal-form');
-});
-
 // Create journal
 router.post('/journal', isAuth, async (req, res) => {
   const journal = new Journal({ ...req.body, user: req.user.id });
   await journal.save();
   res.redirect('/journals');
-});
-
-// View one journal
-router.get('/journals/:id', isAuth, async (req, res) => {
-  const journal = await Journal.findById(req.params.id);
-  res.render('journal-view', { journal });
-});
-
-// Edit form
-router.get('/journals/:id/edit', isAuth, async (req, res) => {
-  const journal = await Journal.findById(req.params.id);
-  res.render('journal-form', { journal });
 });
 
 // Update journal
